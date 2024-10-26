@@ -1,0 +1,3 @@
+# Managed by Ansible
+
+devops ALL=(ALL) NOPASSWD: ALL
