@@ -18,6 +18,28 @@
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
 
+  - name: create user
+    tags: always
+    ansible.builtin.user:
+      name: devops
+      groups: root
+
+  - name: add sudoers file for devops
+    tags: always
+    ansible.builtin.copy:
+      src: sudoers_devops
+      dest: /etc/sudoers.d/devops
+      owner: root
+      group: root
+      mode: 0440
+
+  - name: add ssh key for devops user
+    tags: always
+    ansible.builtin.authorized_key:
+      user: devops
+      key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDXNfSacIZs+CYRCha90amw55IyDdb5YLaeWenlujgrpbb59CfxR3LZ9hdMn61awwG1kObDPqFXXZ1XfmeJDLvZE8fi8/oDlSILP4hktXAQtpQ0QLWmKZGZld4Pe91ghXXzuFOxjNN3o24zyjkdmzXvyDON6LyH4mSELzad2/t+t6XfEKLi0DADhjjK6XhF1RxXD5TLS+RzHw3N8ro6FIUdUeGUoRHsKHDmXiWyejk4Ik0kXiaMQpyq4hqNaHHybG50CE6YBfK8tZcKUP7W80JTMJS2H6bM4CQeY1mrJ5DdUwvqpcRLGRYhFJc+fMofyjO/ycBgdU+TDRIKK4z9fxFlPs9vKHufCaDLje0NMdX++VBOtesREIfAH2Ibmiu8gwYfSh4jwtEI8qgypGu4ZIaBzFC3uitxTnJ+ji4NrYwvK+UEbPp4nqL7WqKy7Wkv7s8126RXxi45qz+0U/nIuudvCYCWhPmpA8XyPD1URbGHC/NuuRiQxgEA84mZF0vMyKM= youssef@Ansible-server"
+
+
 - hosts: web_servers
   become: true
   tasks:
